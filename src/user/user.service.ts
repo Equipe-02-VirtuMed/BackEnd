@@ -63,6 +63,12 @@ export class UserService {
       .catch(handleError);
   }
 
+  findByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
+  }
+
   async update(id: string, dto: UpdateUserDto): Promise<User> {
     await this.findById(id);
     if (dto.password) {
