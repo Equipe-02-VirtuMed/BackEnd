@@ -9,7 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { IsPublic } from './decorators/is-public.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { AuthResquest } from './models/AuthRequest';
+import { AuthRequest } from './models/AuthRequest';
 
 @Controller()
 export class AuthController {
@@ -19,7 +19,7 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
-  login(@Request() req: AuthResquest) {
+  login(@Request() req: AuthRequest) {
     return this.authService.login(req.user);
   }
 }
