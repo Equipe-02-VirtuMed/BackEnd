@@ -20,6 +20,7 @@ async function bootstrap() {
     .setDescription('App for scheduling doctors appointments.')
     .setVersion('1.0.0')
     .addTag('user')
+    .addTag('doctor')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

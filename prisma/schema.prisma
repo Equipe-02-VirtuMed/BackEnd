@@ -18,9 +18,28 @@ model User {
   password String
   image    String
 
+  
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   
   @@map("user")
+}
+
+model Doctor {
+  id       String @id @default(uuid())
+  email    String @unique
+  name     String
+  password String
+  image    String
+  residency String
+
+  
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  
+  @@map("doctor")
 }
