@@ -19,8 +19,11 @@ async function bootstrap() {
     .setTitle('VirtuMed')
     .setDescription('App for scheduling doctors appointments.')
     .setVersion('1.0.0')
+    .addTag('status')
+    .addTag('auth')
     .addTag('user')
     .addTag('doctor')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -14,9 +14,11 @@ import { DoctorService } from './doctor.service';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-// import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('doctor')
+@UseGuards(AuthGuard())
+@ApiBearerAuth()
 @Controller('doctor')
 export class DoctorController {
   constructor(private readonly doctorService: DoctorService) {}
@@ -33,8 +35,6 @@ export class DoctorController {
   @ApiOperation({
     summary: 'Listar todos os médicoss.',
   })
-  // @UseGuards(AuthGuard())
-  @ApiBearerAuth()
   findAll() {
     return this.doctorService.findAll();
   }
@@ -43,8 +43,6 @@ export class DoctorController {
   @ApiOperation({
     summary: 'Visualizar um médico pelo ID',
   })
-  // @UseGuards(AuthGuard())
-  @ApiBearerAuth()
   findOne(@Param('id') id: string) {
     return this.doctorService.findOne(id);
   }
@@ -53,8 +51,6 @@ export class DoctorController {
   @ApiOperation({
     summary: 'Editar um médico pelo ID',
   })
-  // @UseGuards(AuthGuard())
-  @ApiBearerAuth()
   update(@Param('id') id: string, @Body() updateDoctorDto: UpdateDoctorDto) {
     return this.doctorService.update(id, updateDoctorDto);
   }
@@ -64,8 +60,6 @@ export class DoctorController {
   @ApiOperation({
     summary: 'Remover um médico pelo ID',
   })
-  // @UseGuards(AuthGuard())
-  @ApiBearerAuth()
   delete(@Param('id') id: string) {
     this.doctorService.delete(id);
   }
