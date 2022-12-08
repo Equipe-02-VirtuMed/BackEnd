@@ -19,6 +19,8 @@ export class DoctorService {
     password: false,
     image: true,
     residency: true,
+    crm: true,
+    uf: true,
     createdAt: true,
     updatedAt: true,
   };

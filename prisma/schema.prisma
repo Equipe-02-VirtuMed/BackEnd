@@ -31,6 +31,8 @@ model Doctor {
   id       String @id @default(uuid())
   email    String @unique
   name     String
+  crm     String @unique
+  uf     String
   password String
   image    String
   residency String

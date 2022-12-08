@@ -5,6 +5,7 @@ export class Doctor {
   password: string;
   image: string;
   residency: string;
+  crm: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
