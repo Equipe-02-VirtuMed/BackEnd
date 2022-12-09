@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsUrl, Matches, MinLength } from 'class-validator';
+import {
+  IsString,
+  IsUrl,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -15,6 +21,36 @@ export class CreateUserDto {
     example: 'Amaro Francisco',
   })
   name: string;
+
+  @IsString()
+  @ApiProperty({
+    description: 'Name. User`s real name',
+    example: 'Amaro Francisco',
+  })
+  role: string;
+
+  @IsString()
+  @ApiProperty({
+    description: 'Doctor`s registro no Conselho Regional de Medicina (CRM).',
+    example: '01.2345678-9',
+  })
+  crm: string;
+
+  @IsString()
+  @ApiProperty({
+    description: 'Name. User`s real name',
+    example: 'Amaro Francisco',
+  })
+  residency: string;
+
+  @IsString()
+  @MinLength(2)
+  @MaxLength(2)
+  @ApiProperty({
+    description: 'Doctor`s region of activity.',
+    example: 'RJ',
+  })
+  uf: string;
 
   @IsString()
   @MinLength(6)
