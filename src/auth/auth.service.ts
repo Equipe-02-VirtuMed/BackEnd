@@ -1,36 +1,46 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { LoginDto } from './dto/login.dto';
-import * as bcrypt from 'bcryptjs';
+import { Injectable } from '@nestjs/common';
+import { UserService } from 'src/user/user.service';
+import * as bcrypt from 'bcrypt';
+import { User } from 'src/user/entities/user.entity';
+import { UserPayload } from './models/UserPayload';
 import { JwtService } from '@nestjs/jwt';
+import { UserToken } from './models/UserToken';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly prisma: PrismaService,
+    private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(dto: LoginDto) {
-    const { email, password } = dto;
+  login(user: User): UserToken {
+    const payload: UserPayload = {
+      sub: user.id,
+      email: user.email,
+      name: user.name,
+      img: user.image,
+    };
 
-    const user = await this.prisma.user.findUnique({ where: { email } });
-
-    if (!user) {
-      throw new UnauthorizedException('Email or password is invalid!');
-    }
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
-      throw new UnauthorizedException('Email or password is invalid!');
-    }
-
-    delete user.password;
+    const jwtToken = this.jwtService.sign(payload);
 
     return {
-      token: this.jwtService.sign({ email }),
-      user,
+      access_token: jwtToken,
     };
+  }
+
+  async validateUser(email: string, password: string) {
+    const user = await this.userService.findByEmail(email);
+
+    if (user) {
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (isPasswordValid) {
+        return {
+          ...user,
+          password: undefined,
+        };
+      }
+    }
+    throw new Error('Email address or password provided is incorrect.');
   }
 }

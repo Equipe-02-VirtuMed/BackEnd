@@ -15,12 +15,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @IsPublic()
   @Post()
   @ApiOperation({
     summary: 'Criar um usuário',
