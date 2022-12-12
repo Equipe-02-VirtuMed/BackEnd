@@ -17,7 +17,7 @@ export class UserService {
     email: true,
     name: true,
     role: true,
-    crm: true,
+    crm: false,
     residency: true,
     uf: true,
     password: false,

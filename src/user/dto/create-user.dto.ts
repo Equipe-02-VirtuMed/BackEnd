@@ -25,23 +25,23 @@ export class CreateUserDto {
   @IsString()
   @ApiProperty({
     description: 'Name. User`s real name',
-    example: 'Amaro Francisco',
+    example: 'Doutor',
   })
-  role: string;
+  role?: string;
 
   @IsString()
   @ApiProperty({
     description: 'Doctor`s registro no Conselho Regional de Medicina (CRM).',
     example: '01.2345678-9',
   })
-  crm: string;
+  crm?: string;
 
   @IsString()
   @ApiProperty({
     description: 'Name. User`s real name',
-    example: 'Amaro Francisco',
+    example: 'Ginecologista',
   })
-  residency: string;
+  residency?: string;
 
   @IsString()
   @MinLength(2)
@@ -50,7 +50,7 @@ export class CreateUserDto {
     description: 'Doctor`s region of activity.',
     example: 'RJ',
   })
-  uf: string;
+  uf?: string;
 
   @IsString()
   @MinLength(6)
