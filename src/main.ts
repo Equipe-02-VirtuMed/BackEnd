@@ -22,7 +22,7 @@ async function bootstrap() {
     .addTag('status')
     .addTag('auth')
     .addTag('user')
-    .addTag('pacients')
+    .addTag('mail')
     .addBearerAuth()
     .build();
 

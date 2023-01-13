@@ -1,21 +1,24 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
-import { PrismaModule } from './prisma/prisma.module';
-import { UserModule } from './user/user.module';
-
+import { TwilioModule } from 'nestjs-twilio';
+import { PrismaModule } from 'prisma/prisma/prisma.module';
+import { PrismaService } from 'prisma/prisma/prisma.service';
+import { MailModule } from 'src/modules/mails/mail.module';
+import { UserModule } from 'src/modules/user/user.module';
+import { AuthModule } from 'src/modules/auth/auth.module';
 @Module({
-  imports: [PrismaModule, UserModule, AuthModule],
-  controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
+  imports: [
+    // TwilioModule.forRoot({
+    //   accountSid: process.env.TWILIO_ACCOUNT_SID,
+    //   authToken: process.env.TWILIO_AUTH_TOKEN,
+    // }),
+    MailModule,
+    PrismaModule,
+    UserModule,
+    AuthModule,
   ],
+  controllers: [AppController],
+  providers: [AppService, PrismaService],
 })
 export class AppModule {}
