@@ -14,6 +14,7 @@ import { AuthService } from './auth.service';
       secret: process.env.SECRET_KEY,
       signOptions: { expiresIn: '24h' },
     }),
+    MailModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, PrismaService],

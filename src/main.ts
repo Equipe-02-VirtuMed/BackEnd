@@ -19,10 +19,9 @@ async function bootstrap() {
     .setTitle('VirtuMed')
     .setDescription('App for scheduling doctors appointments.')
     .setVersion('1.0.0')
-    .addTag('status')
-    .addTag('auth')
-    .addTag('user')
-    .addTag('mail')
+    .addTag('Status')
+    .addTag('Auth')
+    .addTag('User')
     .addBearerAuth()
     .build();
 

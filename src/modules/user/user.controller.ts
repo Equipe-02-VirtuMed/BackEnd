@@ -62,17 +62,11 @@ export class UserController {
   // ============================ Permissões LoggedUser ==========================
 
   @ApiTags('User')
-  @Post('/admin/create-user')
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth()
+  @Post('/create-user')
   @ApiOperation({
     summary: 'Create a User.',
   })
-  async createUser(
-    @LoggedUser() user: UserEntity,
-    @Body() dto: CreateUserDto,
-    @Res() res: Response,
-  ) {
+  async createUser(@Body() dto: CreateUserDto, @Res() res: Response) {
     const { status, data } = await this.createUserService.execute(dto);
     return res.status(status).send(data);
   }

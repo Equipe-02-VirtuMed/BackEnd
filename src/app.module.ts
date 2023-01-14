@@ -7,12 +7,16 @@ import { PrismaService } from 'prisma/prisma/prisma.service';
 import { MailModule } from 'src/modules/mails/mail.module';
 import { UserModule } from 'src/modules/user/user.module';
 import { AuthModule } from 'src/modules/auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     // TwilioModule.forRoot({
     //   accountSid: process.env.TWILIO_ACCOUNT_SID,
     //   authToken: process.env.TWILIO_AUTH_TOKEN,
     // }),
+    ConfigModule.forRoot({
+      isGlobal: true, // no need to import into other modules
+    }),
     MailModule,
     PrismaModule,
     UserModule,

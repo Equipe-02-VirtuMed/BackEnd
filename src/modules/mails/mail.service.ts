@@ -13,36 +13,18 @@ export class MailService {
 
   async sendUserConfirmation(user: UserEntity) {
     const { email, name, recoverPasswordToken } = user;
-
-    const url =
-      process.env.NODE_ENV !== 'production'
-        ? `${process.env.URL_PROD}${recoverPasswordToken}`
-        : `${process.env.URL_DEV}${recoverPasswordToken}`;
-
+    const url = `http://localhost:3333/recovery-password?token=${recoverPasswordToken}`;
+    console.log(url);
     await this.mailerService.sendMail({
       to: email,
-      from: process.env.MAIL_FROM,
-      subject: 'Recover Password',
-      template: './send.hbs',
+      // from: '"Support Team" <support@example.com>', // override default from
+      subject: 'Reset Password!',
+      template: './send', // `.hbs` extension is appended automatically
       context: {
-        name,
+        // ✏️ filling curly brackets with content
+        name: name,
         url,
       },
     });
-
-    return;
   }
-
-  // async sendLogErro({ local, message }: DataResponse) {
-  //   await this.mailerService.sendMail({
-  //     to: process.env.MAIL_LOGS,
-  //     from: process.env.MAIL_LOGS_FROM,
-  //     subject: local,
-  //     template: './logError',
-  //     context: {
-  //       log_error: message,
-  //     },
-  //   });
-  //   return;
-  // }
 }

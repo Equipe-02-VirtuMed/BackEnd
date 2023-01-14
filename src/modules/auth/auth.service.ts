@@ -3,6 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'prisma/prisma/prisma.service';
 import { handleError } from 'src/utils/handle-error.util';
+import { MailService } from '../mails/mail.service';
+import { UserEntity } from '../user/entity/user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
@@ -10,6 +12,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwt: JwtService,
+    private mailService: MailService,
   ) {}
 
   async LoginUser(loginUserDto: LoginUserDto) {
@@ -35,5 +38,13 @@ export class AuthService {
       token: this.jwt.sign({ email }),
       user,
     };
+  }
+
+  async signUp(user: UserEntity) {
+    const token = Math.floor(1000 + Math.random() * 9000).toString();
+    // create user in db
+    // ...
+    // send confirmation mail
+    await this.mailService.sendUserConfirmation(user);
   }
 }
