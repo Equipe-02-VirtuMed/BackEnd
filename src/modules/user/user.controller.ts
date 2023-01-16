@@ -79,7 +79,7 @@ export class UserController {
     summary: 'Get a User by id.',
   })
   async getUserById(
-    @Param() id: string,
+    @Param() { id }: GetUserByIdDto,
     @LoggedUser() user: UserEntity,
     @Res() res: Response,
   ) {
@@ -120,17 +120,22 @@ export class UserController {
 
   @ApiTags('User')
   @Patch('update-role/:id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Update user role.',
   })
   async updateUserRole(
     @LoggedUser() user: UserEntity,
     @Param() { id }: GetUserByIdDto,
-    @Body() { role }: UpdateUserRole,
+    @Body() updateUserRole: UpdateUserRole,
     @Res() res: Response,
   ) {
-    const { status, data } = await this.updateUserRoleById.execute(id, role);
-
+    const { status, data } = await this.updateUserRoleById.execute(
+      id,
+      updateUserRole,
+    );
+    console.log(user);
     return res.status(status).send(data);
   }
 

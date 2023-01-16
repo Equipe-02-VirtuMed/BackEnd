@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { handleError } from 'src/utils/handle-error.util';
 import { CreateUserDto } from '../dto/create-user.dto';
+import { UpdateUserRole } from '../dto/get-user.dto';
 import { UpdateMyAccountDto } from '../dto/update-my-account.dto';
 import { UpdateMyPasswordDto } from '../dto/update-my-password.dto';
 import { UserEntity } from '../entity/user.entity';
@@ -35,13 +36,18 @@ export class UserRepository extends PrismaClient {
     return this.user.update({ where: { id }, data }).catch(handleError);
   }
 
-  async updateUserRoleById(id: string, role) {
-    return this.user
-      .update({
-        where: { id },
-        data: { role },
-      })
-      .catch(handleError);
+  // async updateUserRoleById(id: string, role) {
+  //   return this.user
+  //     .update({
+  //       where: { id },
+  //       data: { role },
+  //     })
+  //     .catch(handleError);
+  // }
+
+  async updateUserRoleById(id: string, updateUserRole: UpdateUserRole) {
+    const data = { ...updateUserRole };
+    return this.user.update({ where: { id }, data }).catch(handleError);
   }
 
   async updateMyPassword(updateMyPasswordDto: UpdateMyPasswordDto, id: string) {

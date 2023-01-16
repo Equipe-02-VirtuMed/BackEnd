@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { UpdateUserRole } from '../dto/get-user.dto';
 import { UserRepository } from './../repository/user.repository';
 
 @Injectable()
 export class UpdateUserRoleById {
   constructor(private userRepository: UserRepository) {}
 
-  async execute(id: string, role: string) {
+  async execute(id: string, updateUserRole: UpdateUserRole) {
     const userExists = await this.userRepository.findUserById(id);
 
     if (!userExists) {
@@ -15,7 +16,10 @@ export class UpdateUserRoleById {
       };
     }
 
-    const updatedUser = await this.userRepository.updateUserRoleById(id, role);
+    const updatedUser = await this.userRepository.updateUserRoleById(
+      id,
+      updateUserRole,
+    );
 
     return {
       status: 200,
