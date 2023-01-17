@@ -14,7 +14,7 @@ export class MailService {
   async sendUserConfirmation(user: UserEntity) {
     const { email, name, recoverPasswordToken } = user;
     const url = `http://localhost:3333/recovery-password?token=${recoverPasswordToken}`;
-    console.log(url);
+
     await this.mailerService.sendMail({
       to: email,
       // from: '"Support Team" <support@example.com>', // override default from

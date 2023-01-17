@@ -12,12 +12,12 @@ export class RecoveryPasswordByEmail {
 
   async execute(email: string) {
     const userExists = await this.userRepository.findUserByEmail(email);
-
+    console.log(userExists);
     if (!userExists) {
       return {
-        status: 200,
+        status: 400,
         data: {
-          message: 'If email exists a email to recovery password was send',
+          message: 'Email not found.',
         },
       };
     }
@@ -36,7 +36,7 @@ export class RecoveryPasswordByEmail {
     return {
       status: 200,
       data: {
-        message: 'If email exists a email to recovery password was send',
+        message: 'Email sent.',
       },
     };
   }
