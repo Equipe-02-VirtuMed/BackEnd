@@ -1,1 +1,4 @@
-export class Horary {}
+export class Horary {
+  id: string;
+  name: number;
+}
