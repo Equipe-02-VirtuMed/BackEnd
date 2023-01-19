@@ -1,34 +1,57 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  HttpStatus,
+  HttpCode,
+} from '@nestjs/common';
 import { ScheduleService } from './schedule.service';
-import { CreateScheduleDto } from './dto/create-schedule.dto';
-import { UpdateScheduleDto } from './dto/update-schedule.dto';
+import { SelectScheduleDto } from './dto/select-schedule.dto';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard())
+@ApiTags('schedule')
+@ApiBearerAuth()
 @Controller('schedule')
 export class ScheduleController {
   constructor(private readonly scheduleService: ScheduleService) {}
 
   @Post()
-  create(@Body() createScheduleDto: CreateScheduleDto) {
-    return this.scheduleService.create(createScheduleDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.scheduleService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.scheduleService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateScheduleDto: UpdateScheduleDto) {
-    return this.scheduleService.update(+id, updateScheduleDto);
+  @ApiOperation({
+    summary: 'Selecionar horário',
+  })
+  create(@Body() createScheduleDto: SelectScheduleDto) {
+    return this.scheduleService.selectHorary(createScheduleDto);
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({
+    summary: 'Tirar seleção do horário',
+  })
   remove(@Param('id') id: string) {
-    return this.scheduleService.remove(+id);
+    return this.scheduleService.unselectHorary(id);
+  }
+
+  @Get('user/:id')
+  @ApiOperation({
+    summary: 'Listar horário selecionado de um usuário',
+  })
+  getUserSchedule(@Param('id') id: string) {
+    return this.scheduleService.getUserSchedule(id);
+  }
+
+  @Get('horary/:id')
+  @ApiOperation({
+    summary: 'Listar usuário que selecionaram esse horário',
+  })
+  getUsersWhoSelectHorary(@Param('id') id: string) {
+    return this.scheduleService.getUsersWhoSelectHorary(id);
   }
 }

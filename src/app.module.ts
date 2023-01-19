@@ -9,7 +9,7 @@ import { UserModule } from 'src/modules/user/user.module';
 import { AuthModule } from 'src/modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { HoraryModule } from './modules/horary/horary.module';
-import { ScheduleModule } from './schedule/schedule.module';
+import { ScheduleModule } from './modules/schedule/schedule.module';
 @Module({
   imports: [
     // TwilioModule.forRoot({
