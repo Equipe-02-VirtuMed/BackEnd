@@ -11,6 +11,14 @@ export class ChatGateway {
   server;
   @SubscribeMessage("message")
   handleMessage(@MessageBody() message: any, payload: any): void {
+    console.log(message);
     this.server.emit("receive-message", JSON.stringify(message));
+  }
+
+  @SubscribeMessage("file")
+  handleFile(@MessageBody() file: any): void {
+    console.log("file ---");
+    console.log(file);
+    this.server.emit("receive-message", JSON.stringify(file));
   }
 }
