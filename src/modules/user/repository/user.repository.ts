@@ -17,6 +17,21 @@ export class UserRepository extends PrismaClient {
     return this.user.findMany();
   }
 
+  async findAllUsersResidency(residency: string): Promise<UserEntity[]> {
+    const all = this.user.findMany();
+    console.log(all);
+    return this.user
+      .findMany({
+        where: {
+          residency: {
+            contains: residency,
+            mode: 'insensitive',
+          },
+        },
+      })
+      .catch(handleError);
+  }
+
   async findUserByEmail(email: string): Promise<UserEntity> {
     return this.user.findUnique({ where: { email } }).catch(handleError);
   }

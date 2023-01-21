@@ -2,6 +2,7 @@ import { UserController } from './user.controller';
 import { Module } from '@nestjs/common';
 import {
   CreateUserService,
+  FindAllUsersResidency,
   FindAllUsersService,
   FindUserByIdService,
   MyAccountService,
@@ -31,6 +32,7 @@ import { MailModule } from '../mails/mail.module';
     UpdateUserRoleById,
     RecoveryPasswordByEmail,
     UpdatePasswordByEmailService,
+    FindAllUsersResidency,
   ],
   exports: [UserRepository],
 })

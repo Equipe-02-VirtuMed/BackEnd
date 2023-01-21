@@ -12,6 +12,16 @@ export class GetUserByIdDto {
   id: string;
 }
 
+export class GetUserByResidencyDto {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: "User's residency",
+    example: 'cardiologista',
+  })
+  residency: string;
+}
+
 export class UpdateUserRole {
   @IsEnum(['Admin', 'Pacient', 'Doctor'])
   @IsIn(['Admin', 'Pacient', 'Doctor'])

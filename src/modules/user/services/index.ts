@@ -8,3 +8,4 @@ export * from './find-all-users.service';
 export * from './update-user-role-by-id.service';
 export * from './recovery-password-by-email.service';
 export * from './update-password-by-email.service';
+export * from './find-users-residency.service';

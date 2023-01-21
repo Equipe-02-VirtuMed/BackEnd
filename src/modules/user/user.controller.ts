@@ -21,6 +21,7 @@ import { LoggedUser } from '../auth/decorator/logged-user.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
   GetUserByIdDto,
+  GetUserByResidencyDto,
   UpdateUserRole,
   UserEmailDto,
 } from './dto/get-user.dto';
@@ -41,6 +42,7 @@ import {
   UpdateMyPasswordService,
   UpdatePasswordByEmailService,
   UpdateUserRoleById,
+  FindAllUsersResidency,
 } from './services';
 
 @ApiTags()
@@ -54,6 +56,7 @@ export class UserController {
     private deleteMyAccountService: DeleteMyAccountService,
     private findUserByIdService: FindUserByIdService,
     private findAllUsersService: FindAllUsersService,
+    private FindAllUsersResidency: FindAllUsersResidency,
     private updateUserRoleById: UpdateUserRoleById,
     private recoveryPasswordByEmail: RecoveryPasswordByEmail,
     private updatePasswordByEmailService: UpdatePasswordByEmailService,
@@ -102,6 +105,25 @@ export class UserController {
   }
 
   @ApiTags('User')
+  @Get('user/residency')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get all Users by residency.',
+  })
+  async findUserresidency(
+    @LoggedUser() user: UserEntity,
+    @Param() { residency }: GetUserByResidencyDto,
+    @Res() res: Response,
+  ) {
+    const { status, data } = await this.FindAllUsersResidency.execute(
+      residency,
+    );
+    console.log(data);
+    return res.status(status).send(data);
+  }
+
+  @ApiTags('User')
   @Delete('user/:id')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
@@ -135,7 +157,6 @@ export class UserController {
       id,
       updateUserRole,
     );
-    console.log(user);
     return res.status(status).send(data);
   }
 
