@@ -9,7 +9,6 @@ export class SelectScheduleDto {
   })
   userId: string;
 
-  @IsString()
   @IsNotEmpty()
   @ApiProperty({
     description: 'Horário que está sendo selecionado',
