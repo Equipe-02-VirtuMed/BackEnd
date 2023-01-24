@@ -1,13 +1,28 @@
-import { Module } from '@nestjs/common';
-import { ScheduleService } from './schedule.service';
 import { ScheduleController } from './schedule.controller';
-import { JwtStrategy } from 'src/configs/jwt.strategy';
-import { PrismaModule } from 'prisma/prisma/prisma.module';
+import { Module } from '@nestjs/common';
+import {
+  CreateScheduleService,
+  DeleteMyScheduleService,
+  FindAllScheduleService,
+  FindScheduleByDoctorService,
+  FindScheduleByPacientService,
+  UpdateMyScheduleService,
+} from './services';
 import { PassportModule } from '@nestjs/passport';
+import { ScheduleRepository } from './repository/schedule.repository';
 
 @Module({
-  imports: [PrismaModule, PassportModule.register({ defaultStrategy: 'jwt' })],
+  imports: [PassportModule.register({ defaultStrategy: 'jwt' })],
   controllers: [ScheduleController],
-  providers: [ScheduleService, JwtStrategy],
+  providers: [
+    CreateScheduleService,
+    FindAllScheduleService,
+    FindScheduleByDoctorService,
+    FindScheduleByPacientService,
+    UpdateMyScheduleService,
+    DeleteMyScheduleService,
+    ScheduleRepository,
+  ],
+  exports: [ScheduleRepository],
 })
 export class ScheduleModule {}

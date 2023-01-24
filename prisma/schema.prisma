@@ -25,34 +25,29 @@ model User {
 
   createdAt DateTime   @default(now()) @map("created_at")
   updatedAt DateTime   @updatedAt @map("updated_at")
-  Schedule  Schedule[]
+
+  doctor        Schedule[]     @relation("doctor")
+  pacient        Schedule[]    @relation("pacient")
 
   @@map("user")
 }
 
-model Horary {
-  id        String   @id @default(uuid())
-  name      Float    @unique
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  schedule Schedule[]
-
-  @@map("horary")
-}
 
 model Schedule {
   id       String   @id @default(uuid())
-  scoredAt DateTime @default(now()) @map("favirited_at")
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @map("user_id")
+  doctor User?          @relation("doctor", fields: [doctoremail], references: [email])
+  doctoremail String 
 
-  horary     Horary @relation(fields: [horaryName], references: [name], onDelete: Cascade)
-  horaryName Float  @map("product_name")
+  residency String 
 
-  @@unique([userId, horaryName])
-  @@map("favorite")
+  pacient User?          @relation("pacient", fields: [pacientemail], references: [email])
+  pacientemail String 
+
+  day String
+
+ 
+  @@map("schedule")
 }
 
 enum UserRole {

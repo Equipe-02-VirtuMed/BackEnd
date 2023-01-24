@@ -73,6 +73,7 @@ export class CreateUserDto {
   residency?: string;
 
   @IsString()
+  @Length(2, 2)
   @ApiProperty({
     description: "User's estado",
     example: 'RJ',
