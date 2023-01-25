@@ -41,7 +41,7 @@ import {
   UpdateMyAccountService,
   UpdateMyPasswordService,
   UpdatePasswordByEmailService,
-  UpdateUserRoleById,
+  UpdateUserResidencyById,
   FindAllUsersResidency,
 } from './services';
 
@@ -57,7 +57,7 @@ export class UserController {
     private findUserByIdService: FindUserByIdService,
     private findAllUsersService: FindAllUsersService,
     private FindAllUsersResidency: FindAllUsersResidency,
-    private updateUserRoleById: UpdateUserRoleById,
+    private updateUserResidencyById: UpdateUserResidencyById,
     private recoveryPasswordByEmail: RecoveryPasswordByEmail,
     private updatePasswordByEmailService: UpdatePasswordByEmailService,
   ) {}
@@ -141,21 +141,21 @@ export class UserController {
   }
 
   @ApiTags('User')
-  @Patch('update-role/:id')
+  @Patch('update-residency/:id')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'Update user role.',
+    summary: 'Update user residency.',
   })
-  async updateUserRole(
+  async updateUserResidency(
     @LoggedUser() user: UserEntity,
     @Param() { id }: GetUserByIdDto,
-    @Body() updateUserRole: UpdateUserRole,
+    @Body() updateUserResidency: GetUserByResidencyDto,
     @Res() res: Response,
   ) {
-    const { status, data } = await this.updateUserRoleById.execute(
+    const { status, data } = await this.updateUserResidencyById.execute(
       id,
-      updateUserRole,
+      updateUserResidency,
     );
     return res.status(status).send(data);
   }

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateUserRole } from '../dto/get-user.dto';
-import { UserRepository } from './../repository/user.repository';
+import { GetUserByResidencyDto } from '../dto/get-user.dto';
+import { UserRepository } from '../repository/user.repository';
 
 @Injectable()
-export class UpdateUserRoleById {
+export class UpdateUserResidencyById {
   constructor(private userRepository: UserRepository) {}
 
-  async execute(id: string, updateUserRole: UpdateUserRole) {
+  async execute(id: string, updateUserResidency: GetUserByResidencyDto) {
     const userExists = await this.userRepository.findUserById(id);
 
     if (!userExists) {
@@ -16,9 +16,9 @@ export class UpdateUserRoleById {
       };
     }
 
-    const updatedUser = await this.userRepository.updateUserRoleById(
+    const updatedUser = await this.userRepository.updateUserResidencyById(
       id,
-      updateUserRole,
+      updateUserResidency,
     );
 
     return {
