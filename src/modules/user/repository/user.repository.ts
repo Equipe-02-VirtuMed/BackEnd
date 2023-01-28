@@ -19,7 +19,6 @@ export class UserRepository extends PrismaClient {
 
   async findAllUsersResidency(residency: string): Promise<UserEntity[]> {
     const all = this.user.findMany();
-    console.log(all);
     return this.user
       .findMany({
         where: {

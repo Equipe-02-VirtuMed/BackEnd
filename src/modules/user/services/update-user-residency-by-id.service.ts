@@ -21,6 +21,10 @@ export class UpdateUserResidencyById {
       updateUserResidency,
     );
 
+    if (updatedUser.residency) {
+      updatedUser.residency = updatedUser.residency.toUpperCase();
+    }
+
     return {
       status: 200,
       data: updatedUser,

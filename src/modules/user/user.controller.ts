@@ -17,6 +17,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { LoggedAdmin } from '../auth/decorator/logged-owner.decorator';
 import { LoggedUser } from '../auth/decorator/logged-user.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
@@ -83,7 +84,7 @@ export class UserController {
   })
   async getUserById(
     @Param() { id }: GetUserByIdDto,
-    @LoggedUser() user: UserEntity,
+    @LoggedAdmin() user: UserEntity,
     @Res() res: Response,
   ) {
     const { status, data } = await this.findUserByIdService.execute(id);
@@ -100,12 +101,11 @@ export class UserController {
   })
   async findAllUsers(@LoggedUser() user: UserEntity, @Res() res: Response) {
     const { status, data } = await this.findAllUsersService.execute();
-
     return res.status(status).send(data);
   }
 
   @ApiTags('User')
-  @Get('user/residency')
+  @Get('user/residency/:residency')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
   @ApiOperation({
@@ -119,7 +119,7 @@ export class UserController {
     const { status, data } = await this.FindAllUsersResidency.execute(
       residency,
     );
-    console.log(data);
+
     return res.status(status).send(data);
   }
 
@@ -131,7 +131,7 @@ export class UserController {
     summary: 'Delete user account.',
   })
   async deleteAccount(
-    @LoggedUser() user: UserEntity,
+    @LoggedAdmin() user: UserEntity,
     @Param() { id }: GetUserByIdDto,
     @Res() res: Response,
   ) {
@@ -148,7 +148,7 @@ export class UserController {
     summary: 'Update user residency.',
   })
   async updateUserResidency(
-    @LoggedUser() user: UserEntity,
+    @LoggedAdmin() user: UserEntity,
     @Param() { id }: GetUserByIdDto,
     @Body() updateUserResidency: GetUserByResidencyDto,
     @Res() res: Response,
