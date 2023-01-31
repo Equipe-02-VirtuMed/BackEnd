@@ -2,6 +2,7 @@ import { UserController } from './user.controller';
 import { Module } from '@nestjs/common';
 import {
   CreateUserService,
+  FindAllUsersResidency,
   FindAllUsersService,
   FindUserByIdService,
   MyAccountService,
@@ -9,7 +10,7 @@ import {
   UpdateMyAccountService,
   UpdateMyPasswordService,
   UpdatePasswordByEmailService,
-  UpdateUserRoleById,
+  UpdateUserResidencyById,
 } from './services';
 import { UserRepository } from './repository/user.repository';
 import { PassportModule } from '@nestjs/passport';
@@ -28,9 +29,10 @@ import { MailModule } from '../mails/mail.module';
     DeleteMyAccountService,
     FindUserByIdService,
     FindAllUsersService,
-    UpdateUserRoleById,
+    UpdateUserResidencyById,
     RecoveryPasswordByEmail,
     UpdatePasswordByEmailService,
+    FindAllUsersResidency,
   ],
   exports: [UserRepository],
 })

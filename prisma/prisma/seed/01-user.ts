@@ -23,6 +23,39 @@ export const users: Prisma.UserCreateInput[] = [
     password: 'Abcd@1234',
     image: 'https://avatars.githubusercontent.com/u/88009922?v=4',
   },
+
+  {
+    email: 'abarssnow@gmail.com',
+    name: 'Amaro Francisco',
+    role: 'Pacient',
+    crm: '',
+    residency: '',
+    uf: '',
+    password: 'Abcd@1234',
+    image: 'https://avatars.githubusercontent.com/u/88009922?v=4',
+  },
+
+  {
+    email: 'oramanow@gmail.com',
+    name: 'Amaro Francisco',
+    role: 'Doctor',
+    crm: '01.2345678-9',
+    residency: 'Cardiologia',
+    uf: 'RJ',
+    password: 'Abcd@1234',
+    image: 'https://avatars.githubusercontent.com/u/88009922?v=4',
+  },
+
+  {
+    email: 'amaro_ribeir0@hotmail.com',
+    name: 'Amaro Francisco',
+    role: 'Admin',
+    crm: '01.2345678-9',
+    residency: 'Neurocirurgião',
+    uf: 'RJ',
+    password: 'Abcd@1234',
+    image: 'https://avatars.githubusercontent.com/u/88009922?v=4',
+  },
 ];
 
 export const user = async (prisma: PrismaClient) => {

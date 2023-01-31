@@ -58,6 +58,28 @@ export class CreateUserDto {
   })
   email: string;
 
+  @IsString()
+  @ApiProperty({
+    description: "User's CRM",
+    example: '4567879876',
+  })
+  crm?: string;
+
+  @IsString()
+  @ApiProperty({
+    description: "User's residency",
+    example: 'Cardiologista',
+  })
+  residency?: string;
+
+  @IsString()
+  @Length(2, 2)
+  @ApiProperty({
+    description: "User's estado",
+    example: 'RJ',
+  })
+  uf?: string;
+
   @IsEnum(['Admin', 'Pacient', 'Doctor'])
   @IsIn(['Admin', 'Pacient', 'Doctor'])
   @ApiProperty({

@@ -17,10 +17,12 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { LoggedAdmin } from '../auth/decorator/logged-owner.decorator';
 import { LoggedUser } from '../auth/decorator/logged-user.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
   GetUserByIdDto,
+  GetUserByResidencyDto,
   UpdateUserRole,
   UserEmailDto,
 } from './dto/get-user.dto';
@@ -40,7 +42,8 @@ import {
   UpdateMyAccountService,
   UpdateMyPasswordService,
   UpdatePasswordByEmailService,
-  UpdateUserRoleById,
+  UpdateUserResidencyById,
+  FindAllUsersResidency,
 } from './services';
 
 @ApiTags()
@@ -54,7 +57,8 @@ export class UserController {
     private deleteMyAccountService: DeleteMyAccountService,
     private findUserByIdService: FindUserByIdService,
     private findAllUsersService: FindAllUsersService,
-    private updateUserRoleById: UpdateUserRoleById,
+    private FindAllUsersResidency: FindAllUsersResidency,
+    private updateUserResidencyById: UpdateUserResidencyById,
     private recoveryPasswordByEmail: RecoveryPasswordByEmail,
     private updatePasswordByEmailService: UpdatePasswordByEmailService,
   ) {}
@@ -80,7 +84,7 @@ export class UserController {
   })
   async getUserById(
     @Param() { id }: GetUserByIdDto,
-    @LoggedUser() user: UserEntity,
+    @LoggedAdmin() user: UserEntity,
     @Res() res: Response,
   ) {
     const { status, data } = await this.findUserByIdService.execute(id);
@@ -97,6 +101,24 @@ export class UserController {
   })
   async findAllUsers(@LoggedUser() user: UserEntity, @Res() res: Response) {
     const { status, data } = await this.findAllUsersService.execute();
+    return res.status(status).send(data);
+  }
+
+  @ApiTags('User')
+  @Get('user/residency/:residency')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get all Users by residency.',
+  })
+  async findUserresidency(
+    @LoggedUser() user: UserEntity,
+    @Param() { residency }: GetUserByResidencyDto,
+    @Res() res: Response,
+  ) {
+    const { status, data } = await this.FindAllUsersResidency.execute(
+      residency,
+    );
 
     return res.status(status).send(data);
   }
@@ -109,7 +131,7 @@ export class UserController {
     summary: 'Delete user account.',
   })
   async deleteAccount(
-    @LoggedUser() user: UserEntity,
+    @LoggedAdmin() user: UserEntity,
     @Param() { id }: GetUserByIdDto,
     @Res() res: Response,
   ) {
@@ -119,23 +141,22 @@ export class UserController {
   }
 
   @ApiTags('User')
-  @Patch('update-role/:id')
+  @Patch('update-residency/:id')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'Update user role.',
+    summary: 'Update user residency.',
   })
-  async updateUserRole(
-    @LoggedUser() user: UserEntity,
+  async updateUserResidency(
+    @LoggedAdmin() user: UserEntity,
     @Param() { id }: GetUserByIdDto,
-    @Body() updateUserRole: UpdateUserRole,
+    @Body() updateUserResidency: GetUserByResidencyDto,
     @Res() res: Response,
   ) {
-    const { status, data } = await this.updateUserRoleById.execute(
+    const { status, data } = await this.updateUserResidencyById.execute(
       id,
-      updateUserRole,
+      updateUserResidency,
     );
-    console.log(user);
     return res.status(status).send(data);
   }
 

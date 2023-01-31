@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TwilioModule } from 'nestjs-twilio';
 import { PrismaModule } from 'prisma/prisma/prisma.module';
 import { PrismaService } from 'prisma/prisma/prisma.service';
 import { MailModule } from 'src/modules/mails/mail.module';
 import { UserModule } from 'src/modules/user/user.module';
 import { AuthModule } from 'src/modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from './modules/schedule/schedule.module';
 @Module({
   imports: [
     // TwilioModule.forRoot({
@@ -21,6 +21,7 @@ import { ConfigModule } from '@nestjs/config';
     PrismaModule,
     UserModule,
     AuthModule,
+    ScheduleModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

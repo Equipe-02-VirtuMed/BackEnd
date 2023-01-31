@@ -13,6 +13,7 @@ export const LoggedUser = createParamDecorator((_, ctx: ExecutionContext) => {
 
     return userObject;
   } else {
+    console.log('test');
     throw new UnauthorizedException('You don`t have permission to access.');
   }
 });

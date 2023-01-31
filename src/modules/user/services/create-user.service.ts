@@ -27,6 +27,10 @@ export class CreateUserService {
 
     data.password = await bcrypt.hash(data.password, 10);
 
+    if (data.residency) {
+      data.residency = data.residency.toUpperCase();
+    }
+
     const createUser = await this.userRep.createUser(data);
     return {
       status: 201,
