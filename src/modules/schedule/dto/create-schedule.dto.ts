@@ -2,13 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateScheduleDto {
+  @IsString()
   @ApiProperty({
     description: "Schedule's Date",
     example: '15/03/2023 11:00',
   })
   day: string;
 
-  @IsString()
   @IsEmail()
   @IsNotEmpty()
   @ApiProperty({
