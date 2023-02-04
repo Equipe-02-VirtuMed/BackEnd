@@ -17,10 +17,14 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { LoggedAdmin } from '../auth/decorator/logged-owner.decorator';
+import { LoggedUser } from '../auth/decorator/logged-user.decorator';
 import { GetUserByIdDto } from '../user/dto/get-user.dto';
+import { UserEntity } from '../user/entity/user.entity';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
 import {
   DoctorScheduleDto,
+  EmailDto,
   PacientScheduleDto,
 } from './dto/email-schedule.dto';
 import {
@@ -70,13 +74,14 @@ export class ScheduleController {
   }
 
   @ApiTags('Schedule')
-  @Get('schedule/doctor')
+  @Get('schedule/doctor/:doctoremail')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Get all Doctor by schedule.',
   })
   async findDoctorschedule(
+    @LoggedAdmin() user: UserEntity,
     @Param() { doctoremail }: DoctorScheduleDto,
     @Res() res: Response,
   ) {
@@ -87,18 +92,33 @@ export class ScheduleController {
   }
 
   @ApiTags('Schedule')
-  @Get('schedule/pacient')
+  @Get('schedule/pacient/:pacientemail')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Get all Pacient by schedule.',
   })
   async findPacientschedule(
+    @LoggedAdmin() user: UserEntity,
     @Param() { pacientemail }: PacientScheduleDto,
     @Res() res: Response,
   ) {
     const { status, data } = await this.findScheduleByPacientService.execute(
       pacientemail,
+    );
+    return res.status(status).send(data);
+  }
+
+  @ApiTags('Schedule')
+  @Get('schedule/myschedule/:email')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get all Logged User Schedule.',
+  })
+  async findMySchedule(@LoggedAdmin() user: UserEntity, @Res() res: Response) {
+    const { status, data } = await this.findScheduleByPacientService.execute(
+      user.email,
     );
     return res.status(status).send(data);
   }

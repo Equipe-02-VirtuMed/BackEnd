@@ -17,8 +17,19 @@ export class PacientScheduleDto {
   @IsEmail()
   @IsNotEmpty()
   @ApiProperty({
-    description: "Doctor's email address",
+    description: "Pacient's email address",
     example: 'owner@virtumed.com',
   })
   pacientemail: string;
+}
+
+export class EmailDto {
+  @IsString()
+  @IsEmail()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: "Logged User's email address",
+    example: 'owner@virtumed.com',
+  })
+  email: string;
 }
